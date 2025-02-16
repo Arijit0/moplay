@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-lg pt-4 pb-4">
+  <div class="container">
+      <a class="navbar-brand" [routerLink]="['/']">
+          <img class="logo" src="assets/Images/logo.png" alt="logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+              aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active text-white" aria-current="page" (click)="navigateToTrendingMovies()">trending</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link text-white" (click)="navigateToTopImdbMovies()">top IMDB</a>
+            </li> -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Country
+              </a>
+              <div class="dropdown-menu country-dropdown">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <a class="dropdown-item" (click)="applyFilter('country', 'US')"><i class="fas fa-play playIcon"></i> United States</a>
+                    <a class="dropdown-item" (click)="applyFilter('country', 'JP')"><i class="fas fa-play playIcon"></i> japan</a>
+                    <a class="dropdown-item" (click)="applyFilter('country', 'CN')"><i class="fas fa-play playIcon"></i> china</a>
+                    <a class="dropdown-item" (click)="applyFilter('country', 'IN')"><i class="fas fa-play playIcon"></i> india</a>
+                    <a class="dropdown-item" (click)="applyFilter('country', 'KR')"><i class="fas fa-play playIcon"></i> South Korea</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Genre
+              </a>
+              <div class="dropdown-menu">
+                <div class="row">
+                  <div class="col-12 col-sm-6 col-md-4" *ngFor="let eachGenre of movieGenresData">
+                    <a class="dropdown-item" (click)="goToMoviesByGenre(eachGenre.id)"><i class="fas fa-play playIcon"></i> {{ eachGenre.name }}</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="search">
+              <form class="d-flex" role="search">
+                  <input [(ngModel)]="searchQuery" (keydown.enter)="onSearch($event)" class="form-control me-2 custom-focus search-input" type="search" 
+                         placeholder="Search" name="searchQuery" aria-label="Search">
+                  <button class="search-icon-btn" type="submit">
+                      <i class="fas fa-search"></i>
+                  </button>
+              </form>
+          </div>
+      </div>
+  </div>
+</nav>

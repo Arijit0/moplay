@@ -1,0 +1,244 @@
+<app-header />
+
+<div class="main">
+
+    <div class="site-breadcrumb">
+        <img src=".site-breadcrumb" alt="" srcset="">
+        <div class="container">
+            <h2 class="breadcrumb-title">category</h2>
+        </div>
+    </div>
+
+    <div class="filter-area">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-4">
+                    <div class="search">
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2 custom-focus search-input" type="search"
+                                placeholder="Search" [(ngModel)]="searchQuery" (keydown.enter)="search($event)"
+                                aria-label="Search" name="searchQuery">
+                            <button class="search-icon-btn" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="filter-content">
+                        <div class="filter-sort">
+                            <div class="filter-select dropdown">
+                                <button class="btn" type="button" data-bs-toggle="dropdown">
+                                    <i class="fa-solid fa-clapperboard"></i>
+                                    Type: {{ type }}
+                                </button>
+                                <ul class="list dropdown-menu">
+                                    <li class="option" (click)="applyFilter('type', 'movie')">
+                                        movie
+                                    </li>
+                                    <li class="option" (click)="applyFilter('type', 'tv')">
+                                        Tv shows
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="filter-select dropdown">
+                                <button class="btn" type="button" data-bs-toggle="dropdown">
+                                    <i class="fa-solid fa-globe"></i>
+                                    Country: {{ country }}
+                                </button>
+                                <ul class="list dropdown-menu">
+                                    <li class="option" (click)="applyFilter('country', 'US')">
+                                        United States
+                                    </li>
+                                    <li class="option" (click)="applyFilter('country', 'JP')">
+                                        japan
+                                    </li>
+                                    <li class="option" (click)="applyFilter('country', 'CN')">
+                                        china
+                                    </li>
+                                    <li class="option" (click)="applyFilter('country', 'IN')">
+                                        indian
+                                    </li>
+                                    <li class="option" (click)="applyFilter('country', 'KR')">
+                                        South Korea
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="filter-select dropdown">
+                                <button class="btn" type="button" data-bs-toggle="dropdown">
+                                    <i class="fa-solid fa-calendar"></i>
+                                    Year: {{ year }}
+                                </button>
+                                <ul class="list dropdown-menu">
+                                    <li class="option" (click)="applyFilter('year', '2025')">
+                                        2025
+                                    </li>
+                                    <li class="option" (click)="applyFilter('year', '2024')">
+                                        2024
+                                    </li>
+                                    <li class="option" (click)="applyFilter('year', '2023')">
+                                        2023
+                                    </li>
+                                    <li class="option" (click)="applyFilter('year', '2022')">
+                                        2022
+                                    </li>
+                                    <li class="option" (click)="applyFilter('year', '2021')">
+                                        2021
+                                    </li>
+                                    <li class="option" (click)="applyFilter('year', '2020')">
+                                        2020
+                                    </li>
+                                    <li class="option" (click)="applyFilter('year', '2019')">
+                                        2019
+                                    </li>
+                                    <li class="option" (click)="applyFilter('year', '2018')">
+                                        2018
+                                    </li>
+                                    <li class="option" (click)="applyFilter('year', '2017')">
+                                        2017
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="filter-select dropdown">
+                                <button class="btn" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-filter"></i>
+                                    Sort by: {{ sort }}
+                                </button>
+                                <ul class="list dropdown-menu">
+                                    <li class="option" (click)="applyFilter('sort', 'latest')">
+                                        Latest
+                                    </li>
+                                    <li class="option" (click)="applyFilter('sort', 'trending')">
+                                        Trending
+                                    </li>
+                                    <!-- <li class="option" (click)="applyFilter('sort', 'top-imdb')">
+                                        Top IMDb
+                                    </li> -->
+                                </ul>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Both movies and series data -->
+    <div class="latest-movies-area py-80">
+        <div class="container">
+            <div class="row row-cols-xl-5">
+                <!-- Movies List with Pagination -->
+                <ng-container *ngIf="moviesDataArr?.length">
+                    <div class="col-6 col-md-4 col-lg-3 col-xl"
+                        *ngFor="let moviesData of moviesDataArr | paginate: { itemsPerPage: itemsPerPage, currentPage: moviePage }"
+                        @fadeIn>
+                        <div class="movie-item" (click)="navigateToMovieDetails(moviesData)">
+                            <div class="single-genres" *ngIf="moviesData.genres.length">
+                                <a href="#">{{ moviesData.genres[0].name }}</a>
+                            </div>
+                            <div class="movie-img">
+                                <img [src]="moviesData.image" [alt]="moviesData.title" loading="lazy">
+                                <a class="movie-play">
+                                    <i class="fas fa-play"></i>
+                                </a>
+                            </div>
+                            <div class="countrys">
+                                <a href="#" *ngFor="let country of moviesData.origin_country" rel="tag">{{ country
+                                    }}</a>
+                            </div>
+                            <span class="imdb"><i class="fa fa-star"></i> {{ moviesData.vote_average | number:'1.1-1'
+                                }}</span>
+                            <span class="movie-time">{{ formatRuntime(moviesData.runtime) }}</span>
+                            <div class="movie-content pt-2 ps-2">
+                                <h6 class="movie-title">
+                                    <a>{{ moviesData.title }} ({{ moviesData.release_date | date:'yyyy' }})</a>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination Controls for Movies -->
+                    <pagination-controls *ngIf="moviesDataArr?.length" (pageChange)="moviePage = $event" previousLabel="Prev"
+                        nextLabel="Next"></pagination-controls>
+                </ng-container>
+
+                <!-- Series List with Pagination -->
+                <ng-container *ngIf="seriesDataArr?.length">
+                    <div class="col-6 col-md-4 col-lg-3 col-xl"
+                        *ngFor="let seriesData of seriesDataArr | paginate: { itemsPerPage: itemsPerPage, currentPage: seriesPage }"
+                        @fadeIn>
+                        <div class="movie-item" (click)="navigateToSeriesDetails(seriesData)">
+                            <span class="movie-quality" *ngIf="seriesData.quality">{{ seriesData.quality }}</span>
+                            <div class="single-genres" *ngIf="seriesData.genres.length">
+                                <a href="#">{{ seriesData.genres[0].name }}</a>
+                            </div>
+                            <div class="movie-img">
+                                <img [src]="seriesData.image" [alt]="seriesData.name" loading="lazy">
+                                <a class="movie-play">
+                                    <i class="fas fa-play"></i>
+                                </a>
+                            </div>
+                            <div class="countrys">
+                                <ng-container *ngFor="let language of seriesData.languages; let last = last">
+                                    <a href="#" rel="tag">{{ language }}</a><span *ngIf="!last">, </span>
+                                </ng-container>
+                            </div>
+                            <span class="imdb"><i class="fa fa-star"></i> {{ seriesData.vote_average | number:'1.1-1'
+                                }}</span>
+                            <span class="movie-time">Seasons: {{ seriesData.seasons.length }}</span>
+                            <div class="movie-content pt-2 ps-2">
+                                <h6 class="movie-title">
+                                    <a>{{ seriesData.name }} ({{ seriesData.last_air_date | date:'yyyy' }})</a>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination Controls for Series -->
+                    <pagination-controls *ngIf="seriesDataArr?.length" (pageChange)="seriesPage = $event" previousLabel="Prev"
+                        nextLabel="Next"></pagination-controls>
+                </ng-container>
+
+                <!-- combination of Movies and Series List with Pagination -->
+                <ng-container *ngIf="allMediaDataArr?.length">
+                    <div class="col-6 col-md-4 col-lg-3 col-xl"
+                        *ngFor="let moviesData of allMediaDataArr | paginate: { itemsPerPage: itemsPerPage, currentPage: combineMovieAndSeriesPage }"
+                        @fadeIn>
+                        <div class="movie-item" (click)="moviesData.name ? navigateToSeriesDetails(moviesData) : navigateToMovieDetails(moviesData)">
+                            <div class="single-genres" *ngIf="moviesData.genres.length">
+                                <a href="#">{{ moviesData.genres[0].name }}</a>
+                            </div>
+                            <div class="movie-img">
+                                <img [src]="moviesData.image" [alt]="moviesData.title" loading="lazy">
+                                <a class="movie-play">
+                                    <i class="fas fa-play"></i>
+                                </a>
+                            </div>
+                            <div class="countrys">
+                                <a href="#" *ngFor="let country of moviesData.origin_country" rel="tag">{{ country
+                                    }}</a>
+                            </div>
+                            <span class="imdb"><i class="fa fa-star"></i> {{ moviesData.vote_average | number:'1.1-1'
+                                }}</span>
+                            <span class="movie-time" *ngIf="moviesData.runtime">{{ formatRuntime(moviesData.runtime) }}</span>
+                            <span class="movie-time" *ngIf="moviesData.seasons">Seasons: {{ moviesData.seasons.length }}</span>
+                            <div class="movie-content pt-2 ps-2">
+                                <h6 class="movie-title">
+                                    {{ moviesData.title || moviesData.name }} 
+  ({{ moviesData.last_air_date ? (moviesData.last_air_date | date: 'yyyy') : (moviesData.release_date | date: 'yyyy') }})
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination Controls for Movies -->
+                    <pagination-controls *ngIf="allMediaDataArr?.length" (pageChange)="combineMovieAndSeriesPage = $event" previousLabel="Prev"
+                        nextLabel="Next"></pagination-controls>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <app-footer />

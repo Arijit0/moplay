@@ -1,0 +1,139 @@
+<app-header />
+
+<div class="main">
+    <div class="container">
+        <div class="watch py-80">
+            <div class="container">
+                <div id="player" class="player">
+                    <iframe id="iframe" referrerpolicy="origin" loading="lazy" [src]="safeSeriesUrl" scrolling="no" frameborder="0" width="100%"
+                        height="500" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="movie-single-content mt-20">
+            <div class="row">
+                <div class="col-md-4 col-lg-2">
+                    <div class="movie-img">
+                        <img [src]="seriesData.image" [alt]="seriesData.name" >
+                    </div>
+                </div>
+                <div class="col-md-8 col-lg-8 mt-5 mt-lg-0">
+                    <div class="movie-info">
+                        <h4 class="movie-name">
+                            {{seriesData.name}} <span class="year"> ( {{seriesData.last_air_date | date:'yyyy'}} )</span>
+                            <!-- <a href="https://www.youtube.com/watch?v=ckHzmP1evNU" class="theme-btn popup-youtube"><span
+                                    class="fas fa-video"></span>Trailer</a> -->
+                        </h4>
+                        <p>
+                            {{seriesData.overview}}
+                        </p>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="movie-info-item">
+                                    <strong>Genre:</strong>
+                                    <a *ngFor="let data of seriesData.genres">{{data.name}}, </a>
+                                </div>
+                                <div class="movie-info-item">
+                                    <strong>Director:</strong>
+                                    <a *ngFor="let data of directorsData" >{{data.name}}, </a>
+                                </div>
+                                <div class="movie-info-item">
+                                    <strong>Actors:</strong>
+                                    <a *ngFor="let castData of seriesCastData | slice:0:5">{{castData.name}}, </a>
+                                </div>
+                                <div class="movie-info-item">
+                                    <strong>Country:</strong>
+                                    <a *ngFor="let country of seriesData.origin_country" rel="tag">{{country}}</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="movie-info-item">
+                                    <strong>Seasons:</strong>
+                                    <span class="duration">{{ seriesData.number_of_seasons }}</span>
+                                </div>
+                                <!-- <div class="movie-info-item">
+                                    <strong>Quality:</strong>
+                                    <span class="quality">HD</span>
+                                </div> -->
+                                <div class="movie-info-item">
+                                    <strong>Release:</strong>
+                                    <a>{{seriesData.first_air_date | date:'yyyy'}}</a>
+                                </div>
+                                <div class="movie-info-item">
+                                    <strong>IMDb:</strong>
+                                    <span class="rating">{{seriesData.vote_average | number:'1.1-1'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-7 col-lg-3">
+                    <div class="movie-download">
+                        <h5>Download:</h5>
+                        <a href="#" class="theme-btn"><span class="fas fa-arrow-down-to-arc"></span>Download: 576p</a>
+                        <a href="#" class="theme-btn"><span class="fas fa-arrow-down-to-arc"></span>Download: 720p</a>
+                        <a href="#" class="theme-btn"><span class="fas fa-arrow-down-to-arc"></span>Download: 1080p</a>
+                    </div>
+                </div> -->
+                <!-- <div class="col-12">
+                    <div class="movie-keyword">
+                        <span>Keywords:</span>
+                        <a href="#">watch</a>
+                        <a href="#">stream</a>
+                        <a href="#">action</a>
+                        <a href="#">2023</a>
+                        <a href="#">hd download</a>
+                        <a href="#">crime</a>
+                        <a href="#">drama</a>
+                        <a href="#">hd movie</a>
+                        <a href="#">hd stream</a>
+                        <a href="#">new movie</a>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+                <!-- Similar Series -->
+                <div class="latest-movies-area pt-5">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="site-heading-inline">
+                            <h2 class="site-title pb-4">Similar tv series</h2>
+                          </div>
+                        </div>
+                      </div>
+                  
+                      <owl-carousel-o [options]="similarSeriesOptions" ngSkipHydration>
+                        <ng-template carouselSlide *ngFor="let seriesData of similarSeriesData">
+                          <div class="movie-item" (click)="navigateToDetails(seriesData)">
+                            <span class="movie-quality">{{ seriesData.quality }}</span>
+                            <div class="single-genres">
+                                <a href="#" *ngIf="seriesData.genres.length > 0" > {{ seriesData.genres[0].name }}</a>
+                            </div>
+                            <div class="movie-img">
+                              <img [src]="seriesData.image" [alt]="seriesData.name" loading="lazy">
+                            <a class="movie-play">
+                                <i class="fas fa-play"></i>
+                            </a>
+                            </div>
+                            <div class="countrys">
+                              <ng-container *ngFor="let language of seriesData.languages; let last = last">
+                                <a href="#" rel="tag">{{ language }}</a><span *ngIf="!last">, </span>
+                              </ng-container>
+                            </div>
+                            <span class="imdb"><i class="fa fa-star"></i> {{seriesData.vote_average | number:'1.1-1'}}</span>
+                            <span class="movie-time">Seasons : {{seriesData.seasons.length }}</span>
+                            <div class="movie-content pt-2 ps-2">
+                              <h6 class="movie-title"><a>{{ seriesData.name }} ({{seriesData.last_air_date | date:'yyyy'}})</a></h6>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </owl-carousel-o>
+                    </div>
+                </div>
+    </div>
+</div>
+
+<app-footer />

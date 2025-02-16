@@ -1,0 +1,184 @@
+.filter-area {
+    position: relative;
+    padding: 30px 0;
+    background: var(--theme-bg);
+    border-top: 3px solid var(--theme-color);
+    box-shadow: var(--box-shadow);
+}
+
+.filter-sort {
+    display: flex;
+    gap: 10px;
+    /* flex-direction: row;
+    flex-wrap: wrap; */
+}
+
+.filter-select {
+    flex: 1;
+}
+
+.filter-select .dropdown {
+    width: 100% !important;
+    height: 50px;
+    line-height: 47px;
+    border-radius: 10px;
+    background: var(--theme-bg2);
+    font-size: 16px;
+    color: var(--body-text-color);
+    border-color: var(--border-info-color);
+}
+
+.site-breadcrumb {
+    background: url('/assets/Images/breadcump-cover.jpg') no-repeat center center;
+    background-size: cover;
+}
+/* assets/Images/pushpa-2.jpg */
+
+.breadcrumb-title {
+    text-transform: capitalize;
+}
+
+.site-breadcrumb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: cover !important;
+    position: relative;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    z-index: 1;
+}
+
+.site-breadcrumb::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: -1;
+}
+
+.filter-select {
+    width: 100%;
+}
+
+.filter-select .btn {
+    width: 100%;
+    font-size: 16px;
+    background: var(--theme-bg2);
+    border: 2px solid var(--border-info-color);
+    padding: 12px 0px 12px 0px;
+    border-radius: 10px;
+    color: var(--body-text-color);
+    box-shadow: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    text-align: center;
+    justify-content: center;
+    text-transform: capitalize;
+}
+
+.filter-select .list {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--theme-bg2);
+    border: 1px solid var(--border-info-color);
+    box-shadow: none;
+}
+
+.filter-select  .option.focus, 
+.filter-select  .option.selected.focus, 
+.filter-select  .option:hover {
+    background: rgba(41, 182, 232, .1);
+    color: var(--theme-color);
+}
+
+
+.filter-select .option {
+    border-radius: 10px;
+    line-height: 40px;
+    padding-left: 18px;
+    color: var(--body-text-color);
+    cursor: pointer;
+    text-transform: capitalize;
+}
+.filter-select .option.selected {
+    font-weight: 700;
+}
+
+.py-80 {
+    padding: 80px 0;
+}
+
+pagination-controls {
+    text-align: center;
+    width: 100%;
+    padding-top: 100px;
+}
+
+::ng-deep .ngx-pagination {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    background: var(--theme-bg2);
+    border-radius: 6px;
+}
+
+::ng-deep .ngx-pagination li {
+    margin: 0 5px;
+    border-radius: 4px;
+}
+
+::ng-deep .ngx-pagination li a {
+    color: var(--body-text-color);
+    background: var(--theme-bg);
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: var(--transition2);
+}
+
+::ng-deep .ngx-pagination li a:hover {
+    background: var(--theme-color);
+    color: var(--color-white);
+}
+
+::ng-deep .ngx-pagination .current {
+    background: var(--theme-color2) !important;
+    color: var(--color-white) !important;
+    font-weight: bold;
+    padding: 8px 12px!important;
+    border-radius: 4px;
+}
+
+::ng-deep .ngx-pagination .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+::ng-deep .ngx-pagination .pagination-previous a,
+::ng-deep .ngx-pagination .pagination-next a {
+    background: var(--theme-bg-light);
+    color: var(--body-text-color);
+}
+
+::ng-deep .ngx-pagination .pagination-previous a:hover,
+::ng-deep .ngx-pagination .pagination-next a:hover {
+    background: var(--theme-color);
+    color: var(--color-white);
+}
+
+@media (max-width: 767px) {
+    .filter-sort {
+        flex-direction: column;
+    }
+}

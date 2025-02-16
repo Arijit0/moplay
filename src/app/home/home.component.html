@@ -1,0 +1,361 @@
+<app-header />
+
+<!-- Hero Section -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-slider">
+      <owl-carousel-o [options]="customOptions" ngSkipHydration>
+        <ng-template carouselSlide *ngFor="let mdata of moviesData">
+          <div class="slide-1">
+            <img [src]="mdata.image" [alt]="mdata.image.alt" loading="lazy">
+
+            <div class="container">
+              <div class="row align-items-center content">
+                <div class="col-md-12 col-lg-6 ps-5">
+                  <div class="hero-content">
+                    <h6 class="hero-sub-title">
+                      New Release {{mdata.release_date | date:'yyyy'}} </h6>
+                    <h1 class="hero-title">
+                      {{mdata.title}}
+                    </h1>
+                    <div class="hero-info">
+                      <span class="rating"><span><i class="far fa-star"></i> {{mdata.vote_average
+                          | number:'1.1-1'}} </span>IMDB</span>
+                      <span class="year">{{mdata.release_date | date:'yyyy'}}</span>
+                      <span class="time"> {{ formatRuntime(mdata.runtime) }}</span>
+                      <div class="genre">
+                        <a href="#" *ngFor="let data of mdata.genres; index as i">
+                          {{data.name}}, </a>
+                      </div>
+                    </div>
+                    <p class="hero-desc">
+                      {{mdata.overview}}
+                    </p>
+                    <div class="hero-btn">
+                      <a (click)="navigateToMovieDetails(mdata)" class="theme-btn"><span class="icon-play-3"></span>Play
+                        Now</a>
+                      <a (click)="navigateToMovieDetails(mdata)" class="theme-btn theme-btn2">More Details</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 col-lg-6 text-end pe-5">
+                  <div class="hero-video">
+                    <a (click)="playYoutubeTrailer(mdata.trailerID)" data-bs-toggle="modal"
+                      data-bs-target="#youtubeModal" class="hero-video-btn popup-youtube">
+                      <span class="video-icon"><i class="fa-solid fa-play-circle"></i></span>
+                      <span class="video-text">Watch Trailer</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template carouselSlide *ngFor="let sdata of seriesData">
+          <div class="slide-1">
+            <img [src]="sdata.tvSeriesimage" [alt]="sdata.tvSeriesimage.alt" loading="lazy">
+
+            <div class="container">
+              <div class="row align-items-center content">
+                <div class="col-md-12 col-lg-6 ps-5">
+                  <div class="hero-content">
+                    <h6 class="hero-sub-title">
+                      New Release {{sdata.release_date | date:'yyyy'}} </h6>
+                    <h1 class="hero-title">
+                      {{sdata.name}}
+                    </h1>
+                    <div class="hero-info">
+                      <span class="rating"><span><i class="far fa-star"></i> {{sdata.vote_average
+                          | number:'1.1-1'}} </span>IMDB</span>
+                      <span class="year">{{sdata.release_date | date:'yyyy'}}</span>
+                      <!-- <span class="time"> {{ formatRuntime(sdata.runtime) }}</span> -->
+                      <div class="genre">
+                        <a *ngFor="let data of sdata.genres; index as i">
+                          {{data.name}}, </a>
+                      </div>
+                    </div>
+                    <p class="hero-desc">
+                      {{sdata.overview}}
+                    </p>
+                    <div class="hero-btn">
+                      <a (click)="navigateToSeriesDetails(sdata)" class="theme-btn"><span
+                          class="icon-play-3"></span>Play Now</a>
+                      <a (click)="navigateToSeriesDetails(sdata)" class="theme-btn theme-btn2">More Details</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 col-lg-6 text-end pe-5">
+                  <div class="hero-video">
+                    <a (click)="playYoutubeTrailer(sdata.trailerID)" data-bs-toggle="modal"
+                      data-bs-target="#youtubeModal" class="hero-video-btn popup-youtube">
+                      <span class="video-icon"><i class="fa-solid fa-play-circle"></i></span>
+                      <span class="video-text">Watch Trailer</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </owl-carousel-o>
+    </div>
+  </div>
+</div>
+
+<!-- YouTube Modal -->
+<div class="modal fade" id="youtubeModal" tabindex="-1" aria-labelledby="youtubeModalLabel">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-dark border-0">
+      <div class="modal-header">
+        <!-- <h5 class="modal-title" id="youtubeModalLabel">YouTube Video</h5> -->
+        <button type="button" class="btn-close btn btn-danger" data-bs-dismiss="modal" (click)="closeModal()"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- YouTube Video Embed -->
+        <div class="ratio ratio-16x9">
+          <iframe *ngIf="safeUrl" id="youtubeVideo" [src]="safeUrl" allowfullscreen></iframe>
+          <!-- <iframe [src]="safeUrl" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Close</button>
+        <!-- data-bs-dismiss="modal" -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Latest Movies -->
+<div class="latest-movies-area pt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="site-heading-inline">
+          <h2 class="site-title pb-4">Latest Movies</h2>
+        </div>
+      </div>
+    </div>
+
+    <owl-carousel-o [options]="latestMoviesOptions" ngSkipHydration>
+      <ng-template carouselSlide *ngFor="let moviesData of nowPlayingMoviesData">
+        <div class="movie-item" (click)="navigateToMovieDetails(moviesData)">
+          <span class="movie-quality">{{ moviesData.quality }}</span>
+          <div class="single-genres">
+            <a href="#" *ngIf="moviesData.genres.length > 0"> {{ moviesData.genres[0].name }}</a>
+          </div>
+          <div class="movie-img">
+            <img [src]="moviesData.image" [alt]="moviesData.title" loading="lazy">
+            <a class="movie-play">
+              <i class="fas fa-play"></i>
+            </a>
+          </div>
+          <div class="countrys"><a *ngFor="let country of moviesData.origin_country" rel="tag">{{country}}</a></div>
+          <span class="imdb"><i class="fa fa-star"></i> {{moviesData.vote_average | number:'1.1-1'}}</span>
+          <div class="movie-content pt-2">
+            <h6 class="movie-title"><a>{{ moviesData.title }} ({{moviesData.release_date | date:'yyyy'}})</a></h6>
+            <div class="movie-info">
+              <span class="movie-time">{{ formatRuntime(moviesData.runtime) }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </owl-carousel-o>
+  </div>
+</div>
+
+<!-- Trending Movies -->
+<div class="latest-movies-area pt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="site-heading-inline">
+          <h2 class="site-title pb-4">Trending Movies</h2>
+        </div>
+      </div>
+    </div>
+
+    <owl-carousel-o [options]="trendingMoviesOptions" ngSkipHydration>
+      <ng-template carouselSlide *ngFor="let moviesData of trendingMoviesData">
+        <div class="movie-item" (click)="navigateToMovieDetails(moviesData)">
+          <span class="movie-quality">{{ moviesData.quality }}</span>
+          <div class="single-genres">
+            <a href="#" *ngIf="moviesData.genres.length > 0"> {{ moviesData.genres[0].name }}</a>
+          </div>
+          <div class="movie-img">
+            <img [src]="moviesData.image" [alt]="moviesData.title" loading="lazy">
+            <a class="movie-play">
+              <i class="fas fa-play"></i>
+            </a>
+          </div>
+          <div class="countrys">
+            <a href="#" *ngFor="let country of moviesData.origin_country" rel="tag">{{country}}</a>
+          </div>
+          <span class="imdb"><i class="fa fa-star"></i> {{moviesData.vote_average | number:'1.1-1'}}</span>
+          <span class="movie-time">{{ formatRuntime(moviesData.runtime) }}</span>
+          <div class="movie-content pt-2 ps-2">
+            <h6 class="movie-title"><a>{{ moviesData.title }} ({{moviesData.release_date | date:'yyyy'}})</a></h6>
+          </div>
+        </div>
+      </ng-template>
+    </owl-carousel-o>
+  </div>
+</div>
+
+<!-- Top Rated Hindi Movies -->
+<div class="latest-movies-area pt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="site-heading-inline">
+          <h2 class="site-title pb-4">Top Rated Hindi Movies</h2>
+        </div>
+      </div>
+    </div>
+
+    <owl-carousel-o [options]="topRatedHindiMoviesOptions" ngSkipHydration>
+      <ng-template carouselSlide *ngFor="let moviesData of topRatedHindiMoviesData">
+        <div class="movie-item" (click)="navigateToMovieDetails(moviesData)">
+          <span class="movie-quality">{{ moviesData.quality }}</span>
+          <div class="single-genres">
+            <a href="#" *ngIf="moviesData.genres.length > 0"> {{ moviesData.genres[0].name }}</a>
+          </div>
+          <div class="movie-img">
+            <img [src]="moviesData.image" [alt]="moviesData.title" loading="lazy">
+            <a class="movie-play">
+              <i class="fas fa-play"></i>
+            </a>
+          </div>
+          <div class="countrys">
+            <a href="#" *ngFor="let country of moviesData.origin_country" rel="tag">{{country}}</a>
+          </div>
+          <span class="imdb"><i class="fa fa-star"></i> {{moviesData.vote_average | number:'1.1-1'}}</span>
+          <span class="movie-time">{{ formatRuntime(moviesData.runtime) }}</span>
+          <div class="movie-content pt-2 ps-2">
+            <h6 class="movie-title"><a>{{ moviesData.title }} ({{moviesData.release_date | date:'yyyy'}})</a></h6>
+          </div>
+        </div>
+      </ng-template>
+    </owl-carousel-o>
+  </div>
+</div>
+
+<!-- Top Rated Bengali Movies -->
+<div class="latest-movies-area pt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="site-heading-inline">
+          <h2 class="site-title pb-4">Top Rated Bengali Movies</h2>
+        </div>
+      </div>
+    </div>
+
+    <owl-carousel-o [options]="topRatedBengaliMoviesOptions" ngSkipHydration>
+      <ng-template carouselSlide *ngFor="let moviesData of topRatedBengaliMoviesData">
+        <div class="movie-item" (click)="navigateToMovieDetails(moviesData)">
+          <span class="movie-quality">{{ moviesData.quality }}</span>
+          <div class="single-genres">
+            <a href="#" *ngIf="moviesData.genres.length > 0"> {{ moviesData.genres[0].name }}</a>
+          </div>
+          <div class="movie-img">
+            <img [src]="moviesData.image" [alt]="moviesData.title" loading="lazy">
+            <a class="movie-play">
+              <i class="fas fa-play"></i>
+            </a>
+          </div>
+          <div class="countrys">
+            <a href="#" *ngFor="let country of moviesData.origin_country" rel="tag">{{country}}</a>
+          </div>
+          <span class="imdb"><i class="fa fa-star"></i> {{moviesData.vote_average | number:'1.1-1'}}</span>
+          <span class="movie-time">{{ formatRuntime(moviesData.runtime) }}</span>
+          <div class="movie-content pt-2 ps-2">
+            <h6 class="movie-title"><a>{{ moviesData.title }} ({{moviesData.release_date | date:'yyyy'}})</a></h6>
+          </div>
+        </div>
+      </ng-template>
+    </owl-carousel-o>
+  </div>
+</div>
+
+<!-- Now Playing Latest Tv series -->
+<div class="latest-movies-area pt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="site-heading-inline">
+          <h2 class="site-title pb-4">Latest Tv Series</h2>
+        </div>
+      </div>
+    </div>
+
+    <owl-carousel-o [options]="nowPlayingTvSeriesOptions" ngSkipHydration>
+      <ng-template carouselSlide *ngFor="let seriesData of nowPlayingTvSeriesData">
+        <div class="movie-item" (click)="navigateToSeriesDetails(seriesData)">
+          <span class="movie-quality">{{ seriesData.quality }}</span>
+          <div class="single-genres">
+            <a href="#" *ngIf="seriesData.genres.length > 0"> {{ seriesData.genres[0].name }}</a>
+          </div>
+          <div class="movie-img">
+            <img [src]="seriesData.image" [alt]="seriesData.name" loading="lazy">
+            <a class="movie-play">
+              <i class="fas fa-play"></i>
+            </a>
+          </div>
+          <div class="countrys">
+            <ng-container *ngFor="let language of seriesData.languages; let last = last">
+              <a href="#" rel="tag">{{ language }}</a><span *ngIf="!last">, </span>
+            </ng-container>
+          </div>
+          <span class="imdb"><i class="fa fa-star"></i> {{seriesData.vote_average | number:'1.1-1'}}</span>
+          <span class="movie-time">Seasons : {{seriesData.seasons.length }}</span>
+          <div class="movie-content pt-2 ps-2">
+            <h6 class="movie-title"><a>{{ seriesData.name }} ({{seriesData.last_air_date | date:'yyyy'}})</a></h6>
+          </div>
+        </div>
+      </ng-template>
+    </owl-carousel-o>
+  </div>
+</div>
+
+<!-- Top Rated hindi Tv Series -->
+<div class="latest-movies-area pt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="site-heading-inline">
+          <h2 class="site-title pb-4">Top Rated Hindi Tv Series</h2>
+        </div>
+      </div>
+    </div>
+
+    <owl-carousel-o [options]="topRatedHindiTvSeriesOptions" ngSkipHydration>
+      <ng-template carouselSlide *ngFor="let seriesData of topRatedHindiTvSeriesData">
+        <div class="movie-item" (click)="navigateToSeriesDetails(seriesData)">
+          <span class="movie-quality">{{ seriesData.quality }}</span>
+          <div class="single-genres">
+            <a href="#" *ngIf="seriesData.genres.length > 0"> {{ seriesData.genres[0].name }}</a>
+          </div>
+          <div class="movie-img">
+            <img [src]="seriesData.image" [alt]="seriesData.name" loading="lazy">
+            <a class="movie-play">
+              <i class="fas fa-play"></i>
+            </a>
+          </div>
+          <div class="countrys">
+            <ng-container *ngFor="let language of seriesData.languages; let last = last">
+              <a href="#" rel="tag">{{ language }}</a><span *ngIf="!last">, </span>
+            </ng-container>
+          </div>
+          <span class="imdb"><i class="fa fa-star"></i> {{seriesData.vote_average | number:'1.1-1'}}</span>
+          <span class="movie-time">Seasons : {{seriesData.seasons.length }}</span>
+          <div class="movie-content pt-2 ps-2">
+            <h6 class="movie-title"><a>{{ seriesData.name }} ({{seriesData.last_air_date | date:'yyyy'}})</a></h6>
+          </div>
+        </div>
+      </ng-template>
+    </owl-carousel-o>
+  </div>
+</div>
+
+<app-footer />
