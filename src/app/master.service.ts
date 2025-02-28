@@ -27,9 +27,9 @@ export class MasterService {
 
   private COUNTRY = 'IN'; // Hardcoded for India
   private cache = new Map<number, Observable<any>>(); // Cache to store API responses
-  private BASE_URL = 'https://api.themoviedb.org/3/discover/movie';
+  private BASE_URL = 'https://tmdb-proxy.bagarijit0.workers.dev/tmdb/discover/movie';
 
-  private API_URL = 'https://api.themoviedb.org/3';
+  private API_URL = 'https://tmdb-proxy.bagarijit0.workers.dev/tmdb';
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -207,7 +207,7 @@ export class MasterService {
       const requests = Array.from({ length: totalPages }, (_, i) => {
         // Fix endpoint: ensure type is 'movie' or 'tv'
         const endpoint = type === 'movie' ? 'movie' : 'tv';
-        let url = `https://api.themoviedb.org/3/discover/${endpoint}?api_key=${appConfig.TMDB_API_KEY}&page=${i + 1}`;
+        let url = `https://tmdb-proxy.bagarijit0.workers.dev/tmdb/discover/${endpoint}?api_key=${appConfig.TMDB_API_KEY}&page=${i + 1}`;
   
         // Year Filter
         if (year && year !== 'all') {
