@@ -141,7 +141,7 @@ export class CategoryComponent implements OnInit {
     this.moviesDataArr = []; // Clear arrays to prevent duplicate data
     this.seriesDataArr = [];
 
-    this.masterService.getMoviesOrTVBulk(this.type, this.country, this.year, this.sort, 5)
+    this.masterService.getMoviesOrTVBulk(this.type, this.country, this.year, this.sort, 10)
       .subscribe((data: any) => {
         if (!data || data.length === 0) {
           console.warn("No data found");  // Log when API returns no results

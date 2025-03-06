@@ -270,7 +270,7 @@ export class MasterService {
 
     // If not cached, fetch from API and cache the result
     const request$ = this.http.get<any>(
-      `${this.BASE_URL}?api_key=${appConfig.TMDB_API_KEY}&with_genres=${genreId}&region=${this.COUNTRY}&with_origin_country=${this.COUNTRY}`
+      `${this.BASE_URL}?api_key=${appConfig.TMDB_API_KEY}&with_genres=${genreId}&region=${this.COUNTRY}&with_origin_country=${this.COUNTRY}&page=${10}`
     ).pipe(shareReplay(1)); // Cache the response
 
     this.cache.set(genreId, request$); // Store in cache
